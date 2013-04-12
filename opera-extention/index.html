@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>zipdn background</title>
+    <script src="includes/EventEmitter.js"></script>
+    <script src="includes/ev.js"></script>
   </head>
   <body>
     <script type="application/javascript">
@@ -14,11 +16,12 @@ var properties={
 var bt=opera.contexts.toolbar.createItem(properties);
 opera.contexts.toolbar.addItem(bt);
 bt.addEventListener("click",function(e){
-    alert("foooo");
+    console.log("fuwa--");
+    opera.postError("are--");
 });
 //サーバー側
 //新しいページ
-opera.extentions.onconnect=function(e){
+opera.extension.onconnect=function(e){
   var event=new EventClient(e.source);
 };
 
