@@ -20,13 +20,19 @@ bt.addEventListener("click",function(e){
     //起動しろ!!
 		var t=opera.extension.tabs.getSelected();
     if(t){
+      console.log(t.readyState);
       t.postMessage("activate");
     }
 });
 //サーバー側
 //新しいページ
 opera.extension.onconnect=function(e){
+  var id; //相手のid:w
   e.source.onmessage=function(e){
+    if(!e.data)return;
+    if(e.data.type==="myid"){
+      id=e.data.id;
+    }
     if(e.data==="ok"){
       //相手が起動した。こっちも起動
       opera.extension.onconnect=null;
