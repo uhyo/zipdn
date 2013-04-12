@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>zipdn background</title>
-    <script src="includes/EventEmitter.js"></script>
     <script src="includes/ev.js"></script>
+    <script src="lib/process.js"></script>
     <script src="jszip/jszip.js"></script>
   </head>
   <body>
@@ -20,7 +20,6 @@ bt.addEventListener("click",function(e){
     //起動しろ!!
 		var t=opera.extension.tabs.getSelected();
     if(t){
-      console.log(t.readyState);
       t.postMessage("activate");
     }
 });

@@ -1,6 +1,6 @@
 ( // Module boilerplate to support browser globals and AMD.
   (typeof define === "function" && function (m) { define("EventEmitter", m); }) ||
-  (function (m) { window.EventEmitter = m(); })
+  (function (m) { this.EventEmitter = m(); })
 )(function () {
 "use strict";
 
