@@ -8,7 +8,9 @@
 			style.textContent=e.data.css;
 			document.head.appendChild(style);
 			//エクステンション起動
-			var i=new Interface(new EventClient(e.source));
+			var event=new EventEmitter();
+			var i=new Interface(event);
+			var z=new Zipper(event);
 			//返事する
 			e.source.postMessage("ok");
 		}
