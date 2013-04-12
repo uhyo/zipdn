@@ -84,14 +84,49 @@ bt.addEventListener("click",function(e){
 //サーバー側
 //新しいページ
 opera.extension.onconnect=function(e){
+  var id; //相手のid:w
   e.source.onmessage=function(e){
     if(!e.data)return;
+    if(e.data.type==="myid"){
+      id=e.data.id;
+    }
     if(e.data==="ok"){
-      //相手が起動した。
+      //相手が起動した。こっちも起動
+      opera.extension.onconnect=null;
+      var event=new EventClient(e.source);
+      var z=new Zipper(event);
     }
   };
 };
 
+
+//EventEmitterみたいな
+function EventClient(source){
+	this.source=source;
+	var event=this.event=new EventEmitter;
+	source.onmessage=function(e){
+		var d=e.data;
+		if(d.type==="event"){
+			event.emit(d.name,d.data);
+		}
+	};
+}
+EventClient.prototype.on=function(){
+	this.event.on.apply(this.event,arguments);
+};
+EventClient.prototype.once=function(){
+	this.event.once.apply(this.event,arguments);
+};
+EventClient.prototype.removeListener=function(){
+	this.event.removeListener.apply(this.event,arguments);
+};
+EventClient.prototype.emit=function(name,data){
+	this.source.postMessage({
+		type:"event",
+		name:name,
+		data:data,
+	});
+};
     </script>
   </body>
 </html>
