@@ -223,24 +223,25 @@
 		if(callback)callback(result);
 		return result;
 	}
-	function loadScript(filename,callback){
-		var count=0;
-		if(!Array.isArray(filename)){
-			filename=[filename];
+	function loadScript(files,callback){
+		if(!Array.isArray(files)){
+			files=[files];
 		}
-		var max=filename.length;
-		filename.forEach(loadOne);
+		loadOne();
 
-		function loadOne(filename){
+		function loadOne(){
+			if(files.length===0){
+				//もうない
+				if(callback)callback();
+				return;
+			}
+			var filename=files.shift();
 			var scr=document.createElement("script");
 			scr.type="application/javascript";
 			scr.src=filename;
 			scr.addEventListener("load",function handler(e){
 				scr.removeEventListener("load",handler,false);
-				if(++count >=max){
-					//全部読み込んだ
-					if(callback)callback();
-				}
+				loadOne();
 			},false);
 			document.head.appendChild(scr);
 		}
