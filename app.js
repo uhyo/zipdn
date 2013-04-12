@@ -126,7 +126,7 @@
 						xhr.open("GET",a.href);
 						//ファイル名決定
 						var filename;
-						var res=a.href.match(/(?:^|\/)([^\/]*?)(\.\S*)$/);
+						var res=a.href.match(/(?:^|\/)([^\/]*?)(\.[^\/]*)$/);
 						if(a.download){
 							filename=a.download+res[2];
 						}else if(res){

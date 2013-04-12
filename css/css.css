@@ -36,9 +36,11 @@
 /* 個別ファイル */
 .uhy-contents{
 	display:inline-block;
+	vertical-align:top;
 }
 .uhy-filebox{
 	display:inline-block;
+	vertical-align:top;
 }
 .uhy-filebox progress{
 	display:block;
