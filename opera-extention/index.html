@@ -75,29 +75,40 @@ bt.addEventListener("click",function(e){
     var t=opera.extension.tabs.getSelected();
     if(t){
       var cs=document.getElementById('css');
-      var ch=new MessageChannel();
       t.postMessage({
         type:"activate",
         css:cs.textContent,
-        },ch.port2);
-      ch.port1.start();
-      var event=new EventClient(ch.port1);
-      var z=new Zipper(event);
+      });
     }
 });
 //サーバー側
 //新しいページ
-/*opera.extension.onconnect=function(e){
+var idcols={};  //(id):source:w
+opera.extension.onconnect=function(e){
+  //IDを発行する
+  var id=getUniqueID();
+  idcols[id]=e.source;  //送信先
+  e.source.postMessage({
+    type:"yourid",
+    id:id,
+  });
   e.source.onmessage=function(e){
     if(!e.data)return;
-    if(e.data==="ok"){
+    if(e.data.type==="ok"){
       //相手が起動した。こっちも起動
-      opera.extension.onconnect=null;
+      var event=new EventClient(opera.extention,idcols[e.data.id]);
+      var z=new Zipper(event);
     }
   };
-};*/
+};
 
-
+var getUniqueID=(function(){
+    var i=1;
+  return getUniqueID;
+  function getUniqueID(){
+    return i++;
+  }
+})();
     </script>
   </body>
 </html>

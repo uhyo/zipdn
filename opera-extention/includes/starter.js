@@ -1,18 +1,25 @@
 //starter!
 //待受
 (function(){
+	var id=null, srv=null;
 	opera.extension.onmessage=function(e){
+		if(e.data.type==="yourid"){
+			//サーバーさんから連絡がきた
+			id=e.data.id;
+			srv=e.source;	//サーバーさんの連絡先ゲット
+		}
 		if(e.data.type==="activate"){
-			console.log(e.ports);
-			console.log(e.ports[0]);
 			//CSS読み込み
 			var style=document.createElement("style");
 			style.textContent=e.data.css;
 			document.head.appendChild(style);
 			//エクステンション起動
-			var i=new Interface(new EventClient(e.source));
+			var i=new Interface(new EventClient(opera.extention.srv));
 			//返事する
-			e.source.postMessage("ok");
+			srv.postMessage({
+			  type:"ok",
+			  id:id,
+			});
 		}
 	};
 })();

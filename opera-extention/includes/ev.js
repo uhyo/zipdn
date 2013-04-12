@@ -62,10 +62,10 @@ return EventEmitter;
 if(!window.EventClient){
 	window.EventClient=EventClient;
 }
-function EventClient(source){
-	this.source=source;
+function EventClient(recv,send){
+	this.recv=recv, this.send=send;
 	var event=this.event=new EventEmitter;
-	source.onmessage=function(e){
+	recv.onmessage=function(e){
 		var d=e.data;
 		if(d.type==="event"){
 			event.emit(d.name,d.data);
@@ -82,7 +82,7 @@ EventClient.prototype.removeListener=function(){
 	this.event.removeListener.apply(this.event,arguments);
 };
 EventClient.prototype.emit=function(name,data){
-	this.source.postMessage({
+	this.send.postMessage({
 		type:"event",
 		name:name,
 		data:data,
