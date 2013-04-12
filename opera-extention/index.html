@@ -18,7 +18,10 @@ var bt=opera.contexts.toolbar.createItem(properties);
 opera.contexts.toolbar.addItem(bt);
 bt.addEventListener("click",function(e){
     //起動しろ!!
-    opera.extension.broadcastMessage("activate");
+		var t=opera.extension.tabs.getSelected();
+    if(t){
+      t.postMessage("activate");
+    }
 });
 //サーバー側
 //新しいページ
@@ -29,6 +32,7 @@ opera.extension.onconnect=function(e){
       opera.extension.onconnect=null;
       var event=new EventClient(e.source);
       var z=new Zipper(event);
+    }
   };
 };
 
