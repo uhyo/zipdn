@@ -5,6 +5,7 @@
     <title>zipdn background</title>
     <script src="includes/EventEmitter.js"></script>
     <script src="includes/ev.js"></script>
+    <script src="jszip/jszip.js"></script>
   </head>
   <body>
     <script type="application/javascript">
@@ -16,13 +17,19 @@ var properties={
 var bt=opera.contexts.toolbar.createItem(properties);
 opera.contexts.toolbar.addItem(bt);
 bt.addEventListener("click",function(e){
-    console.log("fuwa--");
-    opera.postError("are--");
+    //起動しろ!!
+    opera.extension.broadcastMessage("activate");
 });
 //サーバー側
 //新しいページ
 opera.extension.onconnect=function(e){
-  var event=new EventClient(e.source);
+  e.source.onmessage=function(e){
+    if(e.data==="ok"){
+      //相手が起動した。こっちも起動
+      opera.extension.onconnect=null;
+      var event=new EventClient(e.source);
+      var z=new Zipper(event);
+  };
 };
 
 
