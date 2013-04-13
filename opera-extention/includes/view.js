@@ -103,16 +103,16 @@ Interface.prototype.initui=function(){
 				div.appendChild(el("div",function(div){
 					div.classList.add("uhy-filebox");
 					var progress=el("progress");
-					var prhandler=function(loaded,total){
-						progress.max=total;
-						progress.value=loaded;
+					var prhandler=function(obj){
+						progress.max=obj.total;
+						progress.value=obj.loaded;
 					}
 					div.appendChild(progress);
 					ev.on("loadprogress-"+id,prhandler);
 					var oid=id;
 					ev.on("loadend",function handler(obj){
-						var id=obj.id, error=obj.error, blob=obj.blob,  url=obj.url,filename=obj.filename;
-						if(oid!==id)return;
+						if(oid!==obj.id)return;
+						var id=obj.id, error=obj.error, blob=obj.blob,  type=obj.type, url=obj.url,filename=obj.filename;
 						ev.removeListener("loadprogress-"+id,prhandler);
 						ev.removeListener("loadend",handler);
 						if(error){
@@ -124,7 +124,7 @@ Interface.prototype.initui=function(){
 							return;
 						}
 						//成功した
-						if(/^image\/.+$/.test(blob.type)){
+						if(/^image\/.+$/.test(type)){
 							//画像だ!!
 							//ビューを用意
 							div.appendChild(el("img",function(img){
@@ -168,26 +168,29 @@ Interface.prototype.cle=function(){
 				break;
 			}
 		}while(a=a.parentNode);
-	if(a){
-		e.preventDefault();
-		//これをダウンロードする!
-		if(zipMap[a.href]){
-			//これはすでにある
-			return;
+		if(a){
+			e.preventDefault();
+			//これをダウンロードする!
+			if(zipMap[a.href]){
+				//これはすでにある
+				return;
+			}
+			zipMap[a.href]=true;
+			//ファイル名決定
+			var filename;
+			var res=a.href.match(/(?:^|\/)([^\/]*?)(\.[^\/]*)$/);
+			if(a.download){
+				filename=a.download+res[2];
+			}else if(res){
+				filename=(res[1]+res[2]) || "index.html";
+			}else{
+				filename="default"+(default_index++);
+			}
+			ev.emit("load",{
+				url:a.href,
+				filename:filename
+			});
 		}
-		zipMap[a.href]=true;
-		//ファイル名決定
-		var filename;
-		var res=a.href.match(/(?:^|\/)([^\/]*?)(\.[^\/]*)$/);
-		if(a.download){
-			filename=a.download+res[2];
-		}else if(res){
-			filename=(res[1]+res[2]) || "index.html";
-		}else{
-			filename="default"+(default_index++);
-		}
-		ev.emit("load",a.href,filename);
-	}
 	},false);
 };
 function el(name,callback){

@@ -16,7 +16,8 @@ Zipper.prototype.initEvents=function(event,zip){
 			binary:true,
 		});
 	};
-	event.on("load",function(url,filename){
+	event.on("load",function(obj){
+		var url=obj.url, filename=obj.filename;
 		//このファイルをアレしてほしい!
 		var id=_this.id++;
 		var xhr=new XMLHttpRequest();
@@ -39,6 +40,7 @@ Zipper.prototype.initEvents=function(event,zip){
 			event.emit("loadend",{
 				id:id,erorr:null,
 				blob:xhr.response,
+				type:xhr.response.type,
 				url:url,
 				filename:filename,
 			});
@@ -58,13 +60,14 @@ Zipper.prototype.initEvents=function(event,zip){
 			type:"blob",
 		});
 		cro(blob,function(result){
-			event.emit("generateResponse",url);
+			event.emit("generateResponse",result);
 		});
 	});
 };
 function cro(blob,callback){
 	if(window.URL && window.URL.createObjectURL){
 		callback(window.URL.createObjectURL(blob));
+		return;
 	}
 	//仕方ない、自前で
 	var r=new FileReader();
