@@ -92,7 +92,7 @@ opera.extension.onconnect=function(e){
     type:"yourid",
     id:id,
   });
-  e.source.onmessage=function(e){
+  operan.extension.onmessage=function(e){
     if(!e.data)return;
     if(e.data.type==="ok"){
       //相手が起動した。こっちも起動

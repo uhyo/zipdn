@@ -4,9 +4,11 @@
 * loadstart(id)
 loading of resource started
 === load status events
-* loadend(id,error,result)
+* loadend(result)
 loading ofresource ended(success or fail)
 result={
+  id:id,
+  error:error?,
   blob:Blob,
   filename:string,
 }

@@ -14,7 +14,7 @@
 			style.textContent=e.data.css;
 			document.head.appendChild(style);
 			//エクステンション起動
-			var i=new Interface(new EventClient(opera.extention.srv));
+			var i=new Interface(new EventClient(opera.extension,srv));
 			//返事する
 			srv.postMessage({
 			  type:"ok",
