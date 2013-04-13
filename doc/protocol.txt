@@ -1,0 +1,48 @@
+//[process] --> [view]
+
+== loading events
+* loadstart(id)
+loading of resource started
+=== load status events
+* loadend(result)
+loading ofresource ended(success or fail)
+result={
+  id:id,
+  error:error?,
+  blob:Blob,
+  url:url,
+  filename:string,
+}
+* loadprogress-#{id}(obj)
+obj={
+  loaded:loaded,
+  total:total,
+}
+xhr loadingp
+
+== zip events
+* generateResponse(url)
+got zip blob url
+
+== control events
+* end
+end order.
+
+//[view] --> [process]
+== zip events
+* generate
+get zip blob (=> *generateResponse)
+
+* load(obj)
+obj={
+  url
+  filename
+}
+load and zip-in
+
+*remove(filename)
+remove from zip
+
+== control events
+*endrequest
+end.
