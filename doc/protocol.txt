@@ -13,7 +13,11 @@ result={
   url:url,
   filename:string,
 }
-* loadprogress-#{id}(loaded,total)
+* loadprogress-#{id}(obj)
+obj={
+  loaded:loaded,
+  total:total,
+}
 xhr loadingp
 
 //[process] --> [view]
@@ -26,6 +30,10 @@ got zip blob url
 * generate
 get zip blob (=> *generateResponse)
 
-* load(url,filename)
+* load(obj)
+obj={
+  url
+  filename
+}
 load and zip-in
 
