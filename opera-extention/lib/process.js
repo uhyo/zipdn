@@ -53,6 +53,7 @@ Zipper.prototype.initEvents=function(event,zip){
 			event.emit("loadend",{
 				id:id,erorr:null,
 				blob:blob,
+				type:type,
 				url:url,
 				filename:filename,
 			});
