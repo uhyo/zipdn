@@ -92,11 +92,11 @@ opera.extension.onconnect=function(e){
     type:"yourid",
     id:id,
   });
-  operan.extension.onmessage=function(e){
+  opera.extension.onmessage=function(e){
     if(!e.data)return;
     if(e.data.type==="ok"){
       //相手が起動した。こっちも起動
-      var event=new EventClient(opera.extention,idcols[e.data.id]);
+      var event=new EventClient(opera.extension,idcols[e.data.id]);
       var z=new Zipper(event);
     }
   };

@@ -70,14 +70,14 @@ Interface.prototype.initui=function(){
 				compression:"STORE",
 				type:"blob",
 				});*/
-				ev.on("generateResponse",function(blob){
+				ev.on("generateResponse",function(url){
 					//ダウンロードさせる
-					var filename=prompt("file name?");
-					if(!/\.zip$/.test(filename)){
-						filename+=".zip";
-					}
 					el("a",function(a){
-						a.href=window.URL.createObjectURL(blob);
+						var filename=prompt("file name?");
+						if(!/\.zip$/.test(filename)){
+							filename+=".zip";
+						}
+						a.href=url;
 						a.download=filename;
 					}).click();
 				});
@@ -111,7 +111,7 @@ Interface.prototype.initui=function(){
 					ev.on("loadprogress-"+id,prhandler);
 					var oid=id;
 					ev.on("loadend",function handler(obj){
-						var id=obj.id, error=obj.error, blob=obj.blb, filename=obj.filename;
+						var id=obj.id, error=obj.error, blob=obj.blob,  url=obj.url,filename=obj.filename;
 						if(oid!==id)return;
 						ev.removeListener("loadprogress-"+id,prhandler);
 						ev.removeListener("loadend",handler);
@@ -140,7 +140,7 @@ Interface.prototype.initui=function(){
 									img.hidden=false;
 									img.removeEventListener("load",handler,false);
 								},false)
-								img.src=window.URL.createObjectURL(blob);
+								img.src=rl;
 							}));
 						}else{
 							//とりあえずファイル名

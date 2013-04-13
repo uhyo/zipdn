@@ -10,6 +10,7 @@ result={
   id:id,
   error:error?,
   blob:Blob,
+  url:url,
   filename:string,
 }
 * loadprogress-#{id}(loaded,total)
@@ -17,8 +18,8 @@ xhr loadingp
 
 //[process] --> [view]
 == zip events
-* generateResponse(blob)
-got zip blob
+* generateResponse(url)
+got zip blob url
 
 //[view] --> [process]
 == zip events
