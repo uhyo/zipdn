@@ -57,6 +57,10 @@ Interface.prototype.initui=function(){
 						output.value=filenum+" file(s) zipped";
 					}
 				});
+				ev.on("removed",function(filename){
+					filenum--;
+					output.value=filenum+" file(s) zipped";
+				});
 			}));
 			div.appendChild(el("input",function(input){
 				input.type="button";
@@ -113,6 +117,8 @@ Interface.prototype.initui=function(){
 					ev.on("loadend",function handler(obj){
 						if(oid!==obj.id)return;
 						var id=obj.id, error=obj.error, blob=obj.blob,  type=obj.type, url=obj.url,filename=obj.filename;
+						div.dataset.filename=filename;
+						progress.value=progress.max;
 						ev.removeListener("loadprogress-"+id,prhandler);
 						ev.removeListener("loadend",handler);
 						if(error){
@@ -146,8 +152,23 @@ Interface.prototype.initui=function(){
 							//とりあえずファイル名
 							div.appendChild(document.createTextNode(filename));
 						}
+						//消せるようにする
+						div.addEventListener("click",function(e){
+							ev.emit("remove",filename);
+						},false);
 					});
 				}));
+			});
+			ev.on("removed",function(filename){
+				//消された
+				var chs=div.childNodes;
+				for(var i=0,l=chs.length;ii<l;i++){
+					if(chs[i].dataset.filename===filename){
+						//これが消えた
+						div.removeChild(chs[i]);
+						break;
+					}
+				}
 			});
 		}));
 	}));

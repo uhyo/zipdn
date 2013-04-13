@@ -37,3 +37,5 @@ obj={
 }
 load and zip-in
 
+*remove(filename)
+remove from zip

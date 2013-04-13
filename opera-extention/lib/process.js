@@ -37,10 +37,22 @@ Zipper.prototype.initEvents=function(event,zip){
 			_this.filename=filename;
 			_this.reader.readAsArrayBuffer(xhr.response);
 			//読み込み成功
+			var blob=xhr.response;
+			//タイプを得る
+			var type=blob.type;
+			if(!type){
+				//分からない!画像の場合は推測する
+				if(/\.jpe?g$/.test(url)){
+					type="image/jpeg";
+				}else if(/\.png$/.test(url)){
+					type="image/png";
+				}else if(/\.gif$/.test(url)){
+					type="image/gif";
+				}
+			}
 			event.emit("loadend",{
 				id:id,erorr:null,
-				blob:xhr.response,
-				type:xhr.response.type,
+				blob:blob,
 				url:url,
 				filename:filename,
 			});
@@ -52,6 +64,11 @@ Zipper.prototype.initEvents=function(event,zip){
 			});
 		});
 		xhr.send();
+	});
+	event.on("remove",function(filename){
+		//やっぱりこれはいらない!
+		zip.remove(filename);
+		event.emit("removed",filename);
 	});
 	//zipでくれ!
 	event.on("generate",function(){
