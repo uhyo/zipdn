@@ -81,6 +81,9 @@ EventClient.prototype.once=function(){
 EventClient.prototype.removeListener=function(){
 	this.event.removeListener.apply(this.event,arguments);
 };
+EventClient.prototype.removeAllListeners=function(){
+	this.event.removeAllListeners.apply(this.event,arguments);
+};
 EventClient.prototype.emit=function(name,data){
 	this.send.postMessage({
 		type:"event",

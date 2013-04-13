@@ -81,6 +81,11 @@ Zipper.prototype.initEvents=function(event,zip){
 			event.emit("generateResponse",result);
 		});
 	});
+	//もうおわりだ
+	event.on("endrequest",function(){
+		event.emit("end");
+		event.removeAllListeners();
+	});
 };
 function cro(blob,callback){
 	if(window.URL && window.URL.createObjectURL){

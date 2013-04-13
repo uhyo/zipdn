@@ -20,10 +20,13 @@ obj={
 }
 xhr loadingp
 
-//[process] --> [view]
 == zip events
 * generateResponse(url)
 got zip blob url
+
+== control events
+* end
+end order.
 
 //[view] --> [process]
 == zip events
@@ -39,3 +42,7 @@ load and zip-in
 
 *remove(filename)
 remove from zip
+
+== control events
+*endrequest
+end.
