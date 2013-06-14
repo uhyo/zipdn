@@ -203,7 +203,7 @@ Interface.prototype.cle=function(){
 				break;
 			}
 		}while(a=a.parentNode);
-		if(a){
+		if(a && a.href){
 			e.preventDefault();
 			url=a.href;
 			if(a.download){
